@@ -46,7 +46,7 @@ def get_creation_time(mov_file):
             
     c_time_file = open ("./creation_time.txt")
     c_time = c_time_file.read()
-    c_time_dtobj = datetime.datetime.strptime(c_time[:-2].replace("T", " "), '%Y-%m-%d %H:%M:%S.%f')
+    c_time_dtobj = datetime.strptime(c_time[:-2].replace("T", " "), '%Y-%m-%d %H:%M:%S.%f')
     return(c_time_dtobj)
 
 def get_gpx_time(gpx_filename):
@@ -67,7 +67,7 @@ def timestamp_images(img_list, mov_file):
         exif_dict = pe.load(filename)
         
         
-        new_date_dt = creation_time + datetime.timedelta(seconds = i)
+        new_date_dt = creation_time + timedelta(seconds = i)
         new_date = new_date_dt.strftime("%Y:%m:%d %H:%M:%S")
         
         exif_dict['0th'][pe.ImageIFD.DateTime] = new_date
@@ -95,4 +95,4 @@ for i, img in enumerate(image_list):
 mov_file = infile
 timestamp_images(image_list, mov_file)
 
-os.system("gpscorrelate -v -g ../GH010014.gpx  -z -8 *.jpeg")
+os.system("gpscorrelate -v -g ../GH010014.gpx  -z -8 ./extracted_images/*.jpeg")
